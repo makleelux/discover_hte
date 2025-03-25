@@ -7,6 +7,9 @@
 # A Review and Tutorial with Causal Forests. arXiv preprint arXiv:240901578; 2024.
 
 library(grf)
+# restore legacy option (update 11/24)
+options(grf.legacy.seed = TRUE) 
+
 library(haven)
 library(tidyverse)
 library(caTools)
@@ -106,9 +109,12 @@ rate.cate = rank_average_treatment_effect(
 plot(rate.cate, ylab = 'Average treatment effect')
 
 # AUTOC
-rate.cate
 p.autoc = 2 * pnorm(-abs(rate.cate$estimate / rate.cate$std.err))
-p.autoc 
+
+# AUTOC CI
+paste("AUTOC (95% CI):", round(rate.cate$estimate, 3), 
+      "(", round(rate.cate$estimate - 1.96 * rate.cate$std.err, 3), ",", 
+      round(rate.cate$estimate + 1.96 * rate.cate$std.err, 3), "), p = ", round(p.autoc, 4))
 
 #### Calibration ####
 # differential forest prediction reflects CATE - ATE and suggests HTE
