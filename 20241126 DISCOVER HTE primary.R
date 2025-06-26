@@ -124,7 +124,7 @@ calib
 #### Important Variables ####
 varimp = variable_importance(tau.forest)
 ranked.variables = order(varimp, decreasing = TRUE)
-top.varnames = colnames(X.train)[ranked.variables[1:4]]
+top.varnames = colnames(X.test)[ranked.variables[1:4]]
 print(top.varnames)
 
 #### Covariate Profiles (adapted from Sverdrup et al., 2024) ####
@@ -132,12 +132,12 @@ low = samples.by.quartile[[1]]
 high = samples.by.quartile[[n_groups]]
 
 df.lo = data.frame(
-  covariate.value = unlist(as.vector(X.train[low, top.varnames])),
+  covariate.value = unlist(as.vector(X.test[low, top.varnames])),
   covariate.name = rep(top.varnames, each = length(low)),
   cate.estimates = "Low"
 )
 df.hi = data.frame(
-  covariate.value = unlist(as.vector(X.train[high, top.varnames])),
+  covariate.value = unlist(as.vector(X.test[high, top.varnames])),
   covariate.name = rep(top.varnames, each = length(high)),
   cate.estimates = "High"
 )
